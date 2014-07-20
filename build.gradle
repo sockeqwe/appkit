@@ -1,0 +1,20 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+  repositories {
+    jcenter()
+  }
+  dependencies {
+    classpath 'com.android.tools.build:gradle:0.12.+'
+    classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
+  }
+}
+
+allprojects {
+  repositories {
+    jcenter()
+
+    // TODO remove local maven repository, once httpkit is available in maven central
+    maven { url "${System.env.HOME}/.m2/repository" }
+  }
+}
