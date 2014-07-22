@@ -1,1 +1,1 @@
-include ':mvp', ':dagger', ':string', ':math', ':adapter', ':mvp-httpkit'
+include ':mvp', ':dagger', ':string', ':math', ':adapter', ':mvp-httpkit', ':image'
