@@ -1,7 +1,7 @@
 package com.hannesdorfmann.appkit.dagger;
 
+import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import butterknife.ButterKnife;
 import dagger.ObjectGraph;
 import icepick.Icepick;
@@ -9,7 +9,7 @@ import icepick.Icepick;
 /**
  * @author Hannes Dorfmann
  */
-public class DaggerActivity extends FragmentActivity implements Injector {
+public class DaggerActivity extends Activity implements Injector {
 
   @Override
   public ObjectGraph getObjectGraph() {

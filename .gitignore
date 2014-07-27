@@ -48,6 +48,7 @@ build/
 #maven files
 target/
 /null
+/target
 
 # Local configuration file (sdk path, etc)
 
