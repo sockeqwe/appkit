@@ -23,8 +23,8 @@ android {
 dependencies {
   compile fileTree(dir: 'libs', include: ['*.jar'])
 
-  compile 'com.squareup.dagger:dagger:1.2.1'
-  apt 'com.squareup.dagger:dagger-compiler:1.2.1'
+  compile 'com.squareup.dagger:dagger:1.2.2'
+  apt 'com.squareup.dagger:dagger-compiler:1.2.2'
 
   compile 'com.github.frankiesardo:icepick:2.3.6'
   apt 'com.github.frankiesardo:icepick-processor:2.3.6'

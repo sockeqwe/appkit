@@ -100,9 +100,12 @@ public abstract class MvpActivity<V extends View, D> extends DaggerActivity
   }
 
   @Override
-  public void showLoading() {
+  public void showLoading(boolean pullToRefresh) {
 
-    FadeHelper.showLoading(loadingView, contentView, errorView);
+    if (pullToRefresh) {
+      FadeHelper.showLoading(loadingView, contentView, errorView);
+    }
+    // otherwise
   }
 
   @Override
@@ -128,9 +131,9 @@ public abstract class MvpActivity<V extends View, D> extends DaggerActivity
   protected abstract String getErrorMessage(Exception e, boolean contentPresent);
 
   @Override
-  public void showError(Exception e, boolean contentPresent) {
-    String errorMsg = getErrorMessage(e, contentPresent);
-    if (contentPresent) {
+  public void showError(Exception e, boolean pullToRefresh) {
+    String errorMsg = getErrorMessage(e, pullToRefresh);
+    if (pullToRefresh) {
       showLightError(errorMsg);
     } else {
       FadeHelper.showErrorView(errorMsg, loadingView, contentView, errorView);

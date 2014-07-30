@@ -1,13 +1,11 @@
 package com.hannesdorfmann.appkit.mvp;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import butterknife.ButterKnife;
 import com.hannesdorfmann.appkit.dagger.DaggerFragment;
 import com.hannesdorfmann.appkit.mvp.util.FadeHelper;
@@ -37,8 +35,7 @@ import icepick.Icepick;
  * @param <D> The data type that will by displayed in this Fragment
  * @author Hannes Dorfmann
  */
-public abstract class MvpFragment<V extends View, D> extends DaggerFragment
-    implements MvpView<D> {
+public abstract class MvpFragment<V extends View, D> extends DaggerFragment implements MvpView<D> {
 
   protected V contentView;
 
@@ -138,9 +135,13 @@ public abstract class MvpFragment<V extends View, D> extends DaggerFragment
   protected abstract void onErrorViewClicked();
 
   @Override
-  public void showLoading() {
+  public void showLoading(boolean pullToRefresh) {
 
-    FadeHelper.showLoading(loadingView, contentView, errorView);
+    if (!pullToRefresh) {
+      FadeHelper.showLoading(loadingView, contentView, errorView);
+    }
+    // Otherwise it was a pull to refresh, and the content view is already displayed
+    // (otherwise pull to refresh could not be started)
   }
 
   @Override
@@ -164,11 +165,11 @@ public abstract class MvpFragment<V extends View, D> extends DaggerFragment
   }
 
   @Override
-  public void showError(Exception e, boolean contentPresent) {
+  public void showError(Exception e, boolean pullToRefresh) {
 
-    String errorMsg = getErrorMessage(e, contentPresent);
+    String errorMsg = getErrorMessage(e, pullToRefresh);
 
-    if (contentPresent) {
+    if (pullToRefresh) {
       showLightError(errorMsg);
     } else {
       FadeHelper.showErrorView(errorMsg, loadingView, contentView, errorView);

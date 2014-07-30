@@ -32,7 +32,7 @@ public class MvpHttpPresenter <V extends MvpView<D>, D> extends MvpPresenter<V, 
       throw new NullPointerException("The HttpKit is null - did you forget to set it?");
     }
     if(!pullToRefresh && isViewAttached()) {
-      getView().showLoading();
+      getView().showLoading(pullToRefresh);
     }
     request.setOwner(this);
     httpKit.execute(request, new HttpResponseReceiver<D>() {
