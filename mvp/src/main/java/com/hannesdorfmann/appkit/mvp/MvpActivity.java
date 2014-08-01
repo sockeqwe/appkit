@@ -34,7 +34,7 @@ import icepick.Icepick;
  * </p>
  *
  * <p>
- * Uses Butterknife: So you can use Butterknife in any subclass
+ * Uses Butterknife: So you can use Butterknifes Annotations in any subclass
  * </p>
  *
  * <p>
@@ -90,6 +90,11 @@ public abstract class MvpActivity<V extends View, D> extends DaggerActivity impl
 
       if (isViewStateEnabled()) {
         viewState = createViewState();
+        if (viewState == null) {
+          throw new IllegalStateException("The ViewState can not be null. Return a valid ViewState "
+              + "object from createViewState() or disable the ViewState feature by returning false "
+              + "in isViewStateEnabled()");
+        }
       }
 
       loadData(false);
