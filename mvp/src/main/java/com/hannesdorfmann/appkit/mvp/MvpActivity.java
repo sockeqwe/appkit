@@ -42,19 +42,20 @@ import icepick.Icepick;
  * state will be
  * stored and restored after orientation has changed. You can turn this feature off respectively on
  * by
- * returning false respectively true in {@link #isViewStateEnabled()} (you have to override this
+ * returning false respectively true in {@link #isRetainingViewState()} (you have to override this
  * method). If you override {@link #showError(Exception, boolean)}, {@link #showContent()} or
  * {@link #showLoading(boolean)} than you have to keep in mind that you have to set the ViewState.
  * For this purpose you can use {@link #setErrorViewState(Exception, boolean)}, {@link
  * #setContentViewState()} and {@link #setLoadingViewState(boolean)}
  * </p>
  *
+ * @param <D> The data type that will by displayed in this Fragment
  * @param <V> The type of the View (android view like ListView, FrameLayout etc.) that is displayed
  * as content view.
- * @param <D> The data type that will by displayed in this Fragment
+ * @param <P> The type of the Presenter
  * @author Hannes Dorfmann
  */
-public abstract class MvpActivity<V extends View, D> extends DaggerActivity implements MvpView<D> {
+public abstract class MvpActivity<D, V extends View, P extends MvpPresenter<MvpView<D>, D>> extends DaggerActivity implements MvpView<D> {
 
   /**
    * Get the ViewState
@@ -69,7 +70,7 @@ public abstract class MvpActivity<V extends View, D> extends DaggerActivity impl
 
   protected View loadingView;
 
-  protected MvpPresenter<MvpView<D>, D> presenter;
+  protected P presenter;
 
   @Override
   public void onCreate(Bundle saved) {
@@ -84,16 +85,16 @@ public abstract class MvpActivity<V extends View, D> extends DaggerActivity impl
     extractIntentExtra();
     presenter = createPresenter(saved);
 
-    onCreateInit(saved);
+    init(saved);
 
     if (!restoreViewState(saved)) {
 
-      if (isViewStateEnabled()) {
+      if (isRetainingViewState()) {
         viewState = createViewState();
         if (viewState == null) {
-          throw new IllegalStateException("The ViewState can not be null. Return a valid ViewState "
+          throw new IllegalStateException("The ViewState can not be null! Return a valid ViewState "
               + "object from createViewState() or disable the ViewState feature by returning false "
-              + "in isViewStateEnabled()");
+              + "in isRetainingViewState()");
         }
       }
 
@@ -107,7 +108,7 @@ public abstract class MvpActivity<V extends View, D> extends DaggerActivity impl
   public void onSaveInstanceState(Bundle out) {
     super.onSaveInstanceState(out);
     Icepick.saveInstanceState(this, out);
-    if (isViewStateEnabled() && viewState != null) {
+    if (isRetainingViewState() && viewState != null) {
       viewState.saveInstanceState(out);
     }
   }
@@ -119,7 +120,7 @@ public abstract class MvpActivity<V extends View, D> extends DaggerActivity impl
    */
   protected boolean restoreViewState(Bundle saved) {
 
-    if (!isViewStateEnabled()) {
+    if (!isRetainingViewState()) {
       return false;
     }
 
@@ -173,7 +174,7 @@ public abstract class MvpActivity<V extends View, D> extends DaggerActivity impl
   /**
    * This method will be called from {@link #onCreate(Bundle)} for you to create a presenter
    */
-  public abstract MvpPresenter<MvpView<D>, D> createPresenter(Bundle savedInstanceState);
+  public abstract P createPresenter(Bundle savedInstanceState);
 
   /**
    * Use this method instead of setContenView(R.layout.my_layout).
@@ -204,15 +205,16 @@ public abstract class MvpActivity<V extends View, D> extends DaggerActivity impl
    * but <b>before</b> {@link #loadData(boolean)}
    * </p>
    */
-  public abstract void onCreateInit(Bundle saved);
+  protected abstract void init(Bundle saved);
 
   /**
-   * Return false if you don't want to use the whole ViewState mechanism at all
+   * Return false if you don't want to use the whole ViewState mechanism at all.
+   * Override this method and return false, if you want to disable the retaining ViewState mechanism.
    *
    * @return true, if you want ViewState mechanism (i.e. for auto handling screen orientation
    * changes), otherwise false
    */
-  public boolean isViewStateEnabled() {
+  public boolean isRetainingViewState() {
     return true;
   }
 
@@ -260,7 +262,7 @@ public abstract class MvpActivity<V extends View, D> extends DaggerActivity impl
    * place.
    * So you don't have to care about it
    */
-  protected MvpPresenter<MvpView<D>, D> getPresenter() {
+  protected P getPresenter() {
     return presenter;
   }
 
@@ -275,7 +277,7 @@ public abstract class MvpActivity<V extends View, D> extends DaggerActivity impl
    * This method should be called in {@link #showLoading(boolean)}
    */
   protected void setLoadingViewState(boolean pullToRefresh) {
-    if (!isViewStateEnabled()) {
+    if (!isRetainingViewState()) {
       return;
     }
 
@@ -286,7 +288,7 @@ public abstract class MvpActivity<V extends View, D> extends DaggerActivity impl
    * This method should be called in {@link #showContent()}
    */
   protected void setContentViewState() {
-    if (!isViewStateEnabled()) {
+    if (!isRetainingViewState()) {
       return;
     }
 
@@ -297,7 +299,7 @@ public abstract class MvpActivity<V extends View, D> extends DaggerActivity impl
    * This method should be called in {@link #showError(Exception, boolean)}
    */
   protected void setErrorViewState(Exception e, boolean pullToRefresh) {
-    if (!isViewStateEnabled()) {
+    if (!isRetainingViewState()) {
       return;
     }
 
