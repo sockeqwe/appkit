@@ -43,7 +43,10 @@ import icepick.Icepick;
  * stored and restored after orientation has changed. You can turn this feature off respectively on
  * by
  * returning false respectively true in {@link #isViewStateEnabled()} (you have to override this
- * method)
+ * method). If you override {@link #showError(Exception, boolean)}, {@link #showContent()} or
+ * {@link #showLoading(boolean)} than you have to keep in mind that you have to set the ViewState.
+ * For this purpose you can use {@link #setErrorViewState(Exception, boolean)}, {@link
+ * #setContentViewState()} and {@link #setLoadingViewState(boolean)}
  * </p>
  *
  * @param <V> The type of the View (android view like ListView, FrameLayout etc.) that is displayed
@@ -126,12 +129,26 @@ public abstract class MvpActivity<V extends View, D> extends DaggerActivity impl
         return true;
       }
 
+      // Error was displayed
       if (viewState.wasShowingError()) {
+        // Restore previous data, if there was any
+        if (viewState.getLoadedData() != null) {
+          setData(viewState.getLoadedData());
+          showContent();
+        }
         showError(viewState.getException(), viewState.isPullToRefresh());
         return true;
       }
 
+      // Loading was displayed
       if (viewState.wasShowingLoading()) {
+
+        // Restore previous data, if there was any
+        if (viewState.getLoadedData() != null) {
+          setData(viewState.getLoadedData());
+          showContent();
+        }
+
         showLoading(viewState.isPullToRefresh());
         loadData(viewState.isPullToRefresh());
         return true;
@@ -249,8 +266,43 @@ public abstract class MvpActivity<V extends View, D> extends DaggerActivity impl
     }
   }
 
+  /**
+   * This method should be called in {@link #showLoading(boolean)}
+   */
+  protected void setLoadingViewState(boolean pullToRefresh) {
+    if (!isViewStateEnabled()) {
+      return;
+    }
+
+    viewState.setStateShowLoading(pullToRefresh);
+  }
+
+  /**
+   * This method should be called in {@link #showContent()}
+   */
+  protected void setContentViewState() {
+    if (!isViewStateEnabled()) {
+      return;
+    }
+
+    viewState.setStateShowContent(getData());
+  }
+
+  /**
+   * This method should be called in {@link #showError(Exception, boolean)}
+   */
+  protected void setErrorViewState(Exception e, boolean pullToRefresh) {
+    if (!isViewStateEnabled()) {
+      return;
+    }
+
+    viewState.setStateShowError(e, pullToRefresh);
+  }
+
   @Override
   public void showLoading(boolean pullToRefresh) {
+
+    setLoadingViewState(pullToRefresh);
 
     if (pullToRefresh) {
       FadeHelper.showLoading(loadingView, contentView, errorView);
@@ -261,6 +313,7 @@ public abstract class MvpActivity<V extends View, D> extends DaggerActivity impl
   @Override
   public void showContent() {
 
+    setContentViewState();
     FadeHelper.showContent(loadingView, contentView, errorView);
   }
 
@@ -282,6 +335,7 @@ public abstract class MvpActivity<V extends View, D> extends DaggerActivity impl
 
   @Override
   public void showError(Exception e, boolean pullToRefresh) {
+    setErrorViewState(e, pullToRefresh);
     String errorMsg = getErrorMessage(e, pullToRefresh);
     if (pullToRefresh) {
       showLightError(errorMsg);
@@ -289,5 +343,4 @@ public abstract class MvpActivity<V extends View, D> extends DaggerActivity impl
       FadeHelper.showErrorView(errorMsg, loadingView, contentView, errorView);
     }
   }
-
 }

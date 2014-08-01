@@ -29,4 +29,10 @@ public interface MvpView<D> {
    */
   public void setData(D data);
 
+  /**
+   * Get the data that was previously set by {@link #setData(Object)}
+   * @return
+   */
+  public D getData();
+
 }

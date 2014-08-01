@@ -89,14 +89,14 @@ public class ViewState<D> implements Parcelable {
     currentViewState = STATE_SHOW_ERROR;
     exception = e;
     this.pullToRefresh = pullToRefresh;
-    loadedData = null;
+    // Dont clear loaded data, because of pull to refresh where previous data may be displayed while showing error
   }
 
   public void setStateShowLoading(boolean pullToRefresh) {
     currentViewState = STATE_SHOW_LOADING;
     this.pullToRefresh = pullToRefresh;
     exception = null;
-    loadedData = null;
+    // Dont clear loaded data, because of pull to refresh where previous data may be displayed while showing error
   }
 
   public boolean wasShowingError() {
