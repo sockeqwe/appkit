@@ -7,6 +7,7 @@ import dagger.ObjectGraph;
 import icepick.Icepick;
 
 /**
+ * A base Activity class that support dependency injection with dagger.
  * @author Hannes Dorfmann
  */
 public class DaggerActivity extends Activity implements Injector {

@@ -5,9 +5,11 @@ import android.app.Fragment;
 import dagger.ObjectGraph;
 
 /**
+ * A Fragment class that can be used as base class for each fragment that supports Dagger injection
  * @author Hannes Dorfmann
  */
 public class DaggerFragment extends Fragment implements Injector {
+
   @Override public ObjectGraph getObjectGraph() {
     Activity act = getActivity();
 
