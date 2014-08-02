@@ -68,6 +68,10 @@ public abstract class MvpFragment<M, V extends View, P extends MvpPresenter<MvpV
 
     Icepick.restoreInstanceState(this, savedInstanceState);
 
+    if (presenter == null) {
+      presenter = createPresenter(savedInstanceState);
+    }
+
     View v = inflater.inflate(getLayoutRes(), container, false);
 
     onViewInflated(v);
@@ -105,7 +109,6 @@ public abstract class MvpFragment<M, V extends View, P extends MvpPresenter<MvpV
         // will already save and restore it
       }
     }
-
   }
 
   /**

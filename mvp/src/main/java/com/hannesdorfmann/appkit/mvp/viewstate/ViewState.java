@@ -59,12 +59,12 @@ public class ViewState<D> implements Parcelable {
    * This static method reads the bundle with the saved instance state and restores the ViewState
    * from Bundles data
    */
-  public static <T extends ViewState<?>> ViewState restoreInstanceState(Bundle in) {
+  public static ViewState restoreInstanceState(Bundle in) {
     if (in == null) {
       return null;
     }
 
-    return (T) in.getParcelable(KEY_BUNDLE_VIEW_STATE);
+    return in.getParcelable(KEY_BUNDLE_VIEW_STATE);
   }
 
   public boolean isPullToRefresh() {
