@@ -51,20 +51,21 @@ import icepick.Icepick;
  * #setContentViewState()} and {@link #setLoadingViewState(boolean)}
  * </p>
  *
- * @param <D> The data type that will by displayed in this Fragment
+ * @param <M> The data type that will by displayed in this Fragment
  * @param <V> The type of the View (android view like ListView, FrameLayout etc.) that is displayed
  * as content view.
  * @param <P> The type of the Presenter
  * @author Hannes Dorfmann
  */
-public abstract class MvpViewStateActivity<D, V extends View, P extends MvpPresenter<MvpView<D>, D>> extends DaggerActivity implements MvpView<D> {
+public abstract class MvpViewStateActivity<M, V extends View, P extends MvpPresenter<MvpView<M>, M>>
+    extends DaggerActivity implements MvpView<M> {
 
   /**
    * Get the ViewState
    *
    * @return
    */
-  protected ViewState<D> viewState;
+  protected ViewState<M> viewState;
 
   protected V contentView;
 
@@ -131,7 +132,7 @@ public abstract class MvpViewStateActivity<D, V extends View, P extends MvpPrese
 
       // Content was displayed
       if (viewState.wasShowingContent()) {
-        D data = viewState.getLoadedData();
+        M data = viewState.getLoadedData();
         setData(data);
         showContent();
         return true;
@@ -171,7 +172,7 @@ public abstract class MvpViewStateActivity<D, V extends View, P extends MvpPrese
    * matches the requirements of the activity
    * This method will be called if the Activity is opened for the first time
    */
-  public abstract ViewState<D> createViewState();
+  public abstract ViewState<M> createViewState();
 
   /**
    * This method will be called from {@link #onCreate(Bundle)} for you to create a presenter
@@ -211,7 +212,8 @@ public abstract class MvpViewStateActivity<D, V extends View, P extends MvpPrese
 
   /**
    * Return false if you don't want to use the whole ViewState mechanism at all.
-   * Override this method and return false, if you want to disable the retaining ViewState mechanism.
+   * Override this method and return false, if you want to disable the retaining ViewState
+   * mechanism.
    *
    * @return true, if you want ViewState mechanism (i.e. for auto handling screen orientation
    * changes), otherwise false
@@ -340,7 +342,7 @@ public abstract class MvpViewStateActivity<D, V extends View, P extends MvpPrese
    * Get the error message for a certain Exception that will be shown on {@link
    * #showError(Exception, boolean)}
    */
-  protected abstract String getErrorMessage(Exception e, boolean contentPresent);
+  protected abstract String getErrorMessage(Exception e, boolean pullToRefresh);
 
   @Override
   public void showError(Exception e, boolean pullToRefresh) {

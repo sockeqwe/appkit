@@ -291,7 +291,7 @@ public abstract class MvpViewStateFragment<M, V extends View, P extends MvpPrese
    * Get the error message for a certain Exception that will be shown on {@link
    * #showError(Exception, boolean)}
    */
-  protected abstract String getErrorMessage(Exception e, boolean contentPresent);
+  protected abstract String getErrorMessage(Exception e, boolean pullToRefresh);
 
   /**
    * The default behaviour is to display a toast message as light error (i.e. pull-to-refresh

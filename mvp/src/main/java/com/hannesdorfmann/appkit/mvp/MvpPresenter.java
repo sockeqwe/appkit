@@ -1,7 +1,6 @@
 package com.hannesdorfmann.appkit.mvp;
 
 import com.hannesdorfmann.appkit.dagger.Injector;
-import com.hannesdorfmann.appkit.mvp.MvpView;
 import java.lang.ref.WeakReference;
 
 /**

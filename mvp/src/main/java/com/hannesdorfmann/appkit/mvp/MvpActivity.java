@@ -7,9 +7,9 @@ import com.hannesdorfmann.appkit.mvp.viewstate.ViewState;
 /**
  * @author Hannes Dorfmann
  */
-public abstract class MvpActivity<D, V extends View, P extends MvpPresenter<MvpView<D>, D>>
-    extends MvpViewStateActivity<D, V, P> {
-  @Override public ViewState<D> createViewState() {
+public abstract class MvpActivity<M, V extends View, P extends MvpPresenter<MvpView<M>, M>>
+    extends MvpViewStateActivity<M, V, P> {
+  @Override public ViewState<M> createViewState() {
     return null;
   }
 
