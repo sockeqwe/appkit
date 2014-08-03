@@ -40,7 +40,7 @@ import icepick.Icepick;
  * @param <P> The type of the presenter
  * @author Hannes Dorfmann
  */
-public abstract class MvpViewStateFragment<M, V extends View, P extends MvpPresenter<MvpView<M>, M>>
+public abstract class MvpViewStateFragment<M, V extends View, P extends MvpPresenter<? extends MvpView<M>, M>>
     extends DaggerFragment implements MvpView<M> {
 
   protected V contentView;
@@ -267,10 +267,9 @@ public abstract class MvpViewStateFragment<M, V extends View, P extends MvpPrese
     }
   }
 
-  /**
-   * Called if the user clicks on the error view
-   */
-  protected abstract void onErrorViewClicked();
+  protected void onErrorViewClicked(){
+    loadData(false);
+  }
 
   @Override
   public void showLoading(boolean pullToRefresh) {

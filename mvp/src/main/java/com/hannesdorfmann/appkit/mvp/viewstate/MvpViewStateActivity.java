@@ -258,7 +258,9 @@ public abstract class MvpViewStateActivity<M, V extends View, P extends MvpPrese
   /**
    * Called if the user clicks on the error view
    */
-  protected abstract void onErrorViewClicked();
+  protected void onErrorViewClicked(){
+    loadData(false);
+  }
 
   /**
    * Get the presenter that is used. This is one will be used automatically call

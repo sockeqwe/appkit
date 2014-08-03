@@ -8,7 +8,7 @@ import java.lang.ref.WeakReference;
  *
  * @author Hannes Dorfmann
  */
-public class MvpPresenter<V extends MvpView<D>, D> {
+public class MvpPresenter<V extends MvpView<M>, M> {
 
   protected WeakReference<V> viewReference;
 
