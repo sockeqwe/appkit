@@ -16,11 +16,6 @@ public class MvpPresenter<V extends MvpView<M>, M> {
     injector.getObjectGraph().inject(this);
   }
 
-  public MvpPresenter(Injector injector, V view) {
-    this(injector);
-    setView(view);
-  }
-
   protected V getView() {
     if (viewReference != null) {
       return viewReference.get();
@@ -36,7 +31,7 @@ public class MvpPresenter<V extends MvpView<M>, M> {
     viewReference = new WeakReference<V>(view);
   }
 
-  public void onDestroy() {
+  public void onDestroy(boolean retainInstanceState) {
     viewReference = null;
   }
 

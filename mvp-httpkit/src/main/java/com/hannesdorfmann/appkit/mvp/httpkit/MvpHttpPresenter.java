@@ -18,13 +18,12 @@ public class MvpHttpPresenter <V extends MvpView<D>, D> extends MvpPresenter<V, 
   @Inject
   protected HttpKit httpKit;
 
-  public MvpHttpPresenter(Injector injector, V view){
+  public MvpHttpPresenter(Injector injector){
     super(injector);
 
     if (httpKit == null){
       throw new IllegalArgumentException("No HttpKit could be injected from dagger. Did you forget to specify one in your dagger module?");
     }
-    setView(view);
   }
 
   protected void loadData(HttpRequest request, final boolean pullToRefresh) {
@@ -67,15 +66,15 @@ public class MvpHttpPresenter <V extends MvpView<D>, D> extends MvpPresenter<V, 
   }
 
   @Override
-  public void onDestroy() {
-    super.onDestroy();
-    if(shouldCancelHttpRequests()) {
+  public void onDestroy(boolean retainInstanceState) {
+    super.onDestroy(retainInstanceState);
+    if(!retainInstanceState || cancelHttpRequestsOnRetainInstanceState()) {
       httpKit.cancelAllOfOwner(this);
     }
   }
 
-  protected boolean shouldCancelHttpRequests() {
-    return true;
+  protected boolean cancelHttpRequestsOnRetainInstanceState() {
+    return false;
   }
 
 

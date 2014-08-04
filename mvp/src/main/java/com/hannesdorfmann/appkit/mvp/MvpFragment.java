@@ -7,8 +7,8 @@ import com.hannesdorfmann.appkit.mvp.viewstate.ViewState;
 /**
  * @author Hannes Dorfmann
  */
-public abstract class MvpFragment<M, V extends View, P extends MvpPresenter<MvpView<M>, M>>
-    extends MvpViewStateFragment<M, V, P> {
+public abstract class MvpFragment<AV extends View, M, V extends MvpView<M>, P extends MvpPresenter<V, M>>
+    extends MvpViewStateFragment<AV, M, V, P> {
 
   @Override protected ViewState<M> createViewState() {
     return null;

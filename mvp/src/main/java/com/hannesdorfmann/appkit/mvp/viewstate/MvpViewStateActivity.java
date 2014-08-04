@@ -51,13 +51,18 @@ import icepick.Icepick;
  * #setContentViewState()} and {@link #setLoadingViewState(boolean)}
  * </p>
  *
- * @param <M> The data type that will by displayed in this Fragment
- * @param <V> The type of the View (android view like ListView, FrameLayout etc.) that is displayed
+ *
+ * @param <AV> The type of the View (android view like ListView, FrameLayout etc.) that is
+ * displayed
  * as content view.
+ * @param <M> The data type that will by displayed in this Fragment
+ * @param <V> The type this view inherited from the {@link MvpView} interface. <b>Note: </b> This
+ * Fragment must also explicity implemnt this V interface. Otherwise a cast error may occure.
  * @param <P> The type of the Presenter
  * @author Hannes Dorfmann
  */
-public abstract class MvpViewStateActivity<M, V extends View, P extends MvpPresenter<MvpView<M>, M>>
+public abstract class MvpViewStateActivity<AV extends View, M, V extends MvpView<M>,
+    P extends MvpPresenter<V, M>>
     extends DaggerActivity implements MvpView<M> {
 
   /**
@@ -67,7 +72,7 @@ public abstract class MvpViewStateActivity<M, V extends View, P extends MvpPrese
    */
   protected ViewState<M> viewState;
 
-  protected V contentView;
+  protected AV contentView;
 
   protected TextView errorView;
 
@@ -87,6 +92,7 @@ public abstract class MvpViewStateActivity<M, V extends View, P extends MvpPrese
     Icepick.restoreInstanceState(this, saved);
     extractIntentExtra();
     presenter = createPresenter(saved);
+    presenter.setView((V) this);
 
     init(saved);
 
@@ -226,7 +232,7 @@ public abstract class MvpViewStateActivity<M, V extends View, P extends MvpPrese
   public void onContentChanged() {
     super.onContentChanged();
 
-    contentView = (V) findViewById(R.id.contentView);
+    contentView = (AV) findViewById(R.id.contentView);
     errorView = (TextView) findViewById(R.id.errorView);
     loadingView = findViewById(R.id.loadingView);
 
@@ -258,13 +264,13 @@ public abstract class MvpViewStateActivity<M, V extends View, P extends MvpPrese
   /**
    * Called if the user clicks on the error view
    */
-  protected void onErrorViewClicked(){
+  protected void onErrorViewClicked() {
     loadData(false);
   }
 
   /**
    * Get the presenter that is used. This is one will be used automatically call
-   * {@link MvpPresenter#onDestroy()} for you at correct time and
+   * {@link MvpPresenter#onDestroy(boolean)} for you at correct time and
    * place.
    * So you don't have to care about it
    */
@@ -275,7 +281,7 @@ public abstract class MvpViewStateActivity<M, V extends View, P extends MvpPrese
   @Override
   public void onDestroy() {
     if (getPresenter() != null) {
-      getPresenter().onDestroy();
+      getPresenter().onDestroy(false);
     }
   }
 

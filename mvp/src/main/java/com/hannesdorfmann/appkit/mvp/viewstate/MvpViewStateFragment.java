@@ -34,16 +34,19 @@ import icepick.Icepick;
  * Uses Butterknife and IcePick: So you can use Butterknife and IcePick in any subclass
  * </p>
  *
- * @param <M> The data type that will by displayed in this Fragment
- * @param <V> The type of the View (android view like ListView, FrameLayout etc.) that is displayed
+ * @param <AV> The type of the View (android view like ListView, FrameLayout etc.) that is
+ * displayed
  * as content view.
+ * @param <M> The data type that will by displayed in this Fragment
+ * @param <V> The type this view inherited from the {@link MvpView} interface. <b>Note: </b> This
+ * Fragment must also explicity implemnt this V interface. Otherwise a cast error may occure.
  * @param <P> The type of the presenter
  * @author Hannes Dorfmann
  */
-public abstract class MvpViewStateFragment<M, V extends View, P extends MvpPresenter<? extends MvpView<M>, M>>
+public abstract class MvpViewStateFragment<AV extends View, M, V extends MvpView<M>, P extends MvpPresenter<V, M>>
     extends DaggerFragment implements MvpView<M> {
 
-  protected V contentView;
+  protected AV contentView;
 
   protected TextView errorView;
 
@@ -70,13 +73,15 @@ public abstract class MvpViewStateFragment<M, V extends View, P extends MvpPrese
 
     Icepick.restoreInstanceState(this, savedInstanceState);
 
+    View v = inflater.inflate(getLayoutRes(), container, false);
+
+    onViewInflated(v);
+
     if (presenter == null) {
       presenter = createPresenter(savedInstanceState);
     }
 
-    View v = inflater.inflate(getLayoutRes(), container, false);
-
-    onViewInflated(v);
+    presenter.setView((V) this);
 
     init(v, container, savedInstanceState);
 
@@ -178,7 +183,7 @@ public abstract class MvpViewStateFragment<M, V extends View, P extends MvpPrese
 
     ButterKnife.inject(this, view);
 
-    contentView = (V) view.findViewById(R.id.contentView);
+    contentView = (AV) view.findViewById(R.id.contentView);
     loadingView = view.findViewById(R.id.loadingView);
     errorView = (TextView) view.findViewById(R.id.errorView);
 
@@ -238,7 +243,7 @@ public abstract class MvpViewStateFragment<M, V extends View, P extends MvpPrese
 
   /**
    * Get the presenter that is used. This is one will be used automatically call
-   * {@link MvpPresenter#onDestroy()} for you at correct time and
+   * {@link MvpPresenter#onDestroy(boolean)} for you at correct time and
    * place.
    * So you don't have to care about it
    */
@@ -263,11 +268,11 @@ public abstract class MvpViewStateFragment<M, V extends View, P extends MvpPrese
     super.onDestroyView();
 
     if (getPresenter() != null) {
-      getPresenter().onDestroy();
+      getPresenter().onDestroy(getRetainInstance());
     }
   }
 
-  protected void onErrorViewClicked(){
+  protected void onErrorViewClicked() {
     loadData(false);
   }
 
