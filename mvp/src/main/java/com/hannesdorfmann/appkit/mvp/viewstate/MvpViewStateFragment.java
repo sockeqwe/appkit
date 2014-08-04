@@ -21,7 +21,7 @@ import icepick.Icepick;
  * init()
  * method (onDestroyView() will call the presenters onDestory() method).
  * If you instantiate your presenter in fragments onCreate() than you also have to call {@link
- * MvpPresenter#onDestroy()}
+ * MvpPresenter#onDestroy(boolean)}
  * in fragments onDestroy().
  *
  * <p>
