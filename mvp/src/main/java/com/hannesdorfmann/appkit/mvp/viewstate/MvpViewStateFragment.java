@@ -276,8 +276,43 @@ public abstract class MvpViewStateFragment<AV extends View, M, V extends MvpView
     loadData(false);
   }
 
+  /**
+   * This method should be called in {@link #showLoading(boolean)}
+   */
+  protected void setLoadingViewState(boolean pullToRefresh) {
+    if (!isRetainingViewState()) {
+      return;
+    }
+
+    viewState.setStateShowLoading(pullToRefresh);
+  }
+
+  /**
+   * This method should be called in {@link #showContent()}
+   */
+  protected void setContentViewState() {
+    if (!isRetainingViewState()) {
+      return;
+    }
+
+    viewState.setStateShowContent(getData());
+  }
+
+  /**
+   * This method should be called in {@link #showError(Exception, boolean)}
+   */
+  protected void setErrorViewState(Exception e, boolean pullToRefresh) {
+    if (!isRetainingViewState()) {
+      return;
+    }
+
+    viewState.setStateShowError(e, pullToRefresh);
+  }
+
   @Override
   public void showLoading(boolean pullToRefresh) {
+
+    setLoadingViewState(pullToRefresh);
 
     if (!pullToRefresh) {
       FadeHelper.showLoading(loadingView, contentView, errorView);
@@ -288,6 +323,7 @@ public abstract class MvpViewStateFragment<AV extends View, M, V extends MvpView
 
   @Override
   public void showContent() {
+    setContentViewState();
     FadeHelper.showContent(loadingView, contentView, errorView);
   }
 
@@ -308,6 +344,8 @@ public abstract class MvpViewStateFragment<AV extends View, M, V extends MvpView
 
   @Override
   public void showError(Exception e, boolean pullToRefresh) {
+
+    setErrorViewState(e, pullToRefresh);
 
     String errorMsg = getErrorMessage(e, pullToRefresh);
 
