@@ -280,6 +280,7 @@ public abstract class MvpViewStateActivity<AV extends View, M, V extends MvpView
 
   @Override
   public void onDestroy() {
+    super.onDestroy();
     if (getPresenter() != null) {
       getPresenter().onDestroy(false);
     }
