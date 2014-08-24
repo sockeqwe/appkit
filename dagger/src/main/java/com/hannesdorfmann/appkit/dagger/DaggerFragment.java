@@ -2,10 +2,12 @@ package com.hannesdorfmann.appkit.dagger;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.os.Bundle;
 import dagger.ObjectGraph;
 
 /**
  * A Fragment class that can be used as base class for each fragment that supports Dagger injection
+ *
  * @author Hannes Dorfmann
  */
 public class DaggerFragment extends Fragment implements Injector {
@@ -30,5 +32,11 @@ public class DaggerFragment extends Fragment implements Injector {
     }
 
     return og;
+  }
+
+  @Override
+  public void onCreate(Bundle saved) {
+    super.onCreate(saved);
+    getObjectGraph().inject(this);
   }
 }
