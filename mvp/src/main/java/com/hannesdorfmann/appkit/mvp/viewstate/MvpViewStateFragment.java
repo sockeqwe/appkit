@@ -197,10 +197,16 @@ public abstract class MvpViewStateFragment<AV extends View, M, V extends MvpView
           + "You have to provide a View with R.id.loadingView in your inflated xml layout");
     }
 
-    if (contentView == null) {
+    if (errorView == null) {
       throw new IllegalStateException("The error view is not specified. "
           + "You have to provide a View with R.id.errorView in your inflated xml layout");
     }
+
+    errorView.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+        onErrorViewClicked();
+      }
+    });
   }
 
   /**
