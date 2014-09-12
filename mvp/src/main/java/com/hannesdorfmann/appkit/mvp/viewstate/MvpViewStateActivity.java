@@ -51,7 +51,6 @@ import icepick.Icepick;
  * #setContentViewState()} and {@link #setLoadingViewState(boolean)}
  * </p>
  *
- *
  * @param <AV> The type of the View (android view like ListView, FrameLayout etc.) that is
  * displayed
  * as content view.
@@ -61,8 +60,7 @@ import icepick.Icepick;
  * @param <P> The type of the Presenter
  * @author Hannes Dorfmann
  */
-public abstract class MvpViewStateActivity<AV extends View, M, V extends MvpView<M>,
-    P extends MvpPresenter<V, M>>
+public abstract class MvpViewStateActivity<AV extends View, M, V extends MvpView<M>, P extends MvpPresenter<V, M>>
     extends DaggerActivity implements MvpView<M> {
 
   /**
@@ -146,12 +144,13 @@ public abstract class MvpViewStateActivity<AV extends View, M, V extends MvpView
 
       // Error was displayed
       if (viewState.wasShowingError()) {
+        Exception exception = viewState.getException();
         // Restore previous data, if there was any
         if (viewState.getLoadedData() != null) {
           setData(viewState.getLoadedData());
           showContent();
         }
-        showError(viewState.getException(), viewState.isPullToRefresh());
+        showError(exception, viewState.isPullToRefresh());
         return true;
       }
 
@@ -246,7 +245,7 @@ public abstract class MvpViewStateActivity<AV extends View, M, V extends MvpView
           + "You have to provide a View with R.id.loadingView in your inflated xml layout");
     }
 
-    if (contentView == null) {
+    if (errorView == null) {
       throw new IllegalStateException("The error view is not specified. "
           + "You have to provide a View with R.id.errorView in your inflated xml layout");
     }
@@ -324,7 +323,7 @@ public abstract class MvpViewStateActivity<AV extends View, M, V extends MvpView
 
     setLoadingViewState(pullToRefresh);
 
-    if (pullToRefresh) {
+    if (!pullToRefresh) {
       FadeHelper.showLoading(loadingView, contentView, errorView);
     }
     // otherwise

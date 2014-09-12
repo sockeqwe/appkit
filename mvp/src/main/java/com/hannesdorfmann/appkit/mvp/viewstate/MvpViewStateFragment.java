@@ -146,12 +146,13 @@ public abstract class MvpViewStateFragment<AV extends View, M, V extends MvpView
 
       // Error was displayed
       if (viewState.wasShowingError()) {
+        Exception exception = viewState.getException();
         // Restore previous data, if there was any
         if (viewState.getLoadedData() != null) {
           setData(viewState.getLoadedData());
           showContent();
         }
-        showError(viewState.getException(), viewState.isPullToRefresh());
+        showError(exception, viewState.isPullToRefresh());
         return true;
       }
 
