@@ -18,3 +18,14 @@ allprojects {
     maven { url "${System.env.HOME}/.m2/repository" }
   }
 }
+
+ext {
+  ver = '0.8'
+  versionCode = 1
+  versionName = '1.0'
+  minSdk = 14
+  targetSdk = 21
+  buildToolsVersion = '20.0.0'
+  compileSdkVersion = 21
+
+}

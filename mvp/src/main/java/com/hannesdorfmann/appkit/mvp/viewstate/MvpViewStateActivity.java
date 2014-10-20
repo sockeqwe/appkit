@@ -88,7 +88,12 @@ public abstract class MvpViewStateActivity<AV extends View, M, V extends MvpView
     }
 
     Icepick.restoreInstanceState(this, saved);
-    extractIntentExtra();
+    if (getIntent() != null) {
+      Bundle extra = getIntent().getExtras();
+      if (extra != null) {
+        extractIntentExtra(extra);
+      }
+    }
     presenter = createPresenter(saved);
     presenter.setView((V) this);
 
@@ -191,9 +196,12 @@ public abstract class MvpViewStateActivity<AV extends View, M, V extends MvpView
   public abstract Integer getContentViewLayoutRes();
 
   /**
-   * Extracts the extras from the intent. Will be called from {@link #onCreate(Bundle)}
+   * Extracts the extras from the intent. Will be called from {@link #onCreate(Bundle)} and before
+   * {@link #init(Bundle)}
    */
-  public abstract void extractIntentExtra();
+  public void extractIntentExtra(Bundle extra) {
+
+  }
 
   /**
    * Load data by using the presenter. The presenter and view will be initialized
@@ -207,7 +215,7 @@ public abstract class MvpViewStateActivity<AV extends View, M, V extends MvpView
    *
    * <p>
    * This method will be called <b>after</b> {@link #getContentViewLayoutRes()},
-   * {@link #extractIntentExtra()} , {@link #createPresenter(Bundle)} ,{@link
+   * {@link #extractIntentExtra(Bundle)} , {@link #createPresenter(Bundle)} ,{@link
    * #getContentViewLayoutRes()}.
    *
    * but <b>before</b> {@link #loadData(boolean)}
