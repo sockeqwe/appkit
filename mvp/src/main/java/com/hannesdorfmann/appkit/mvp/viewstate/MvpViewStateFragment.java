@@ -1,17 +1,19 @@
 package com.hannesdorfmann.appkit.mvp.viewstate;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 import butterknife.ButterKnife;
-import com.hannesdorfmann.appkit.dagger.DaggerFragment;
 import com.hannesdorfmann.appkit.mvp.MvpPresenter;
 import com.hannesdorfmann.appkit.mvp.MvpView;
 import com.hannesdorfmann.appkit.mvp.R;
 import com.hannesdorfmann.appkit.mvp.util.FadeHelper;
+import com.hannesdorfmann.appkit.mvp.util.MvpAnimator;
+import com.hannesdorfmann.fragmentargs.FragmentArgs;
 import icepick.Icepick;
 
 /**
@@ -44,7 +46,7 @@ import icepick.Icepick;
  * @author Hannes Dorfmann
  */
 public abstract class MvpViewStateFragment<AV extends View, M, V extends MvpView<M>, P extends MvpPresenter<V, M>>
-    extends DaggerFragment implements MvpView<M> {
+    extends Fragment implements MvpView<M> {
 
   protected AV contentView;
 
@@ -64,7 +66,7 @@ public abstract class MvpViewStateFragment<AV extends View, M, V extends MvpView
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    // TODO insert Fragment Args
+    FragmentArgs.inject(this);
   }
 
   @Override
@@ -322,16 +324,30 @@ public abstract class MvpViewStateFragment<AV extends View, M, V extends MvpView
     setLoadingViewState(pullToRefresh);
 
     if (!pullToRefresh) {
-      FadeHelper.showLoading(loadingView, contentView, errorView);
+      animateLoadingViewIn();
     }
     // Otherwise it was a pull to refresh, and the content view is already displayed
     // (otherwise pull to refresh could not be started)
   }
 
+  /**
+   * Will be called to animate the loading view in (replaces error view / content view)
+   */
+  protected void animateLoadingViewIn() {
+    FadeHelper.showLoading(loadingView, contentView, errorView);
+  }
+
   @Override
   public void showContent() {
     setContentViewState();
-    FadeHelper.showContent(loadingView, contentView, errorView);
+    animateContentViewIn();
+  }
+
+  /**
+   * This method will be called to animate from loading view to content view
+   */
+  protected void animateContentViewIn() {
+    MvpAnimator.showContent(loadingView, contentView, errorView);
   }
 
   /**
@@ -359,7 +375,15 @@ public abstract class MvpViewStateFragment<AV extends View, M, V extends MvpView
     if (pullToRefresh) {
       showLightError(errorMsg);
     } else {
-      FadeHelper.showErrorView(errorMsg, loadingView, contentView, errorView);
+      errorView.setText(errorMsg);
+      animateErrorViewIn();
     }
+  }
+
+  /**
+   * Animates the error view in (instead of displaying content view / loading view)
+   */
+  protected void animateErrorViewIn() {
+    FadeHelper.showErrorView(loadingView, contentView, errorView);
   }
 }

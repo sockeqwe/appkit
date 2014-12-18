@@ -1,13 +1,11 @@
 package com.hannesdorfmann.appkit.mvp.httpkit;
 
-import com.hannesdorfmann.appkit.dagger.Injector;
 import com.hannesdorfmann.appkit.mvp.MvpPresenter;
 import com.hannesdorfmann.appkit.mvp.MvpView;
 import com.hannesdorfmann.httpkit.HttpKit;
 import com.hannesdorfmann.httpkit.request.HttpRequest;
 import com.hannesdorfmann.httpkit.response.HttpResponse;
 import com.hannesdorfmann.httpkit.response.HttpResponseReceiver;
-import javax.inject.Inject;
 
 /**
  * A MvpPresenter that uses httpkit to make http calls
@@ -15,15 +13,10 @@ import javax.inject.Inject;
  */
 public class MvpHttpPresenter <V extends MvpView<D>, D> extends MvpPresenter<V, D> {
 
-  @Inject
   protected HttpKit httpKit;
 
-  public MvpHttpPresenter(Injector injector){
-    super(injector);
-
-    if (httpKit == null){
-      throw new IllegalArgumentException("No HttpKit could be injected from dagger. Did you forget to specify one in your dagger module?");
-    }
+  public void setHttpKit(HttpKit httpKit) {
+    this.httpKit = httpKit;
   }
 
   protected void loadData(HttpRequest request, final boolean pullToRefresh) {

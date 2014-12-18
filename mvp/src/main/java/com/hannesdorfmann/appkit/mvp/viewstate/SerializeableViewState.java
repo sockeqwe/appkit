@@ -8,25 +8,24 @@ import java.io.Serializable;
  */
 public class SerializeableViewState<D extends Serializable> extends ViewState<D> {
 
-  public static final Creator<SerializeableViewState> CREATOR = new Creator<SerializeableViewState>() {
-    @Override public SerializeableViewState createFromParcel(Parcel source) {
-      return new SerializeableViewState(source);
-    }
+  public static final Creator<SerializeableViewState> CREATOR =
+      new Creator<SerializeableViewState>() {
+        @Override public SerializeableViewState createFromParcel(Parcel source) {
+          return new SerializeableViewState(source);
+        }
 
-    @Override public SerializeableViewState[] newArray(int size) {
-      return new SerializeableViewState[size];
-    }
-  };
+        @Override public SerializeableViewState[] newArray(int size) {
+          return new SerializeableViewState[size];
+        }
+      };
 
-
-  public SerializeableViewState(){
-
-  }
-
-  private SerializeableViewState(Parcel in){
+  public SerializeableViewState() {
 
   }
 
+  private SerializeableViewState(Parcel in) {
+
+  }
 
   public void writeToParcel(Parcel dest, int flags) {
     super.writeToParcel(dest, flags);
@@ -37,5 +36,4 @@ public class SerializeableViewState<D extends Serializable> extends ViewState<D>
     super.readFromParcel(in);
     loadedData = (D) in.readSerializable();
   }
-
 }

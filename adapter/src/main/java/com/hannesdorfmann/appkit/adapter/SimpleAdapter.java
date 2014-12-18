@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import com.hannesdorfmann.appkit.dagger.Injector;
 import java.util.List;
 
 /**
@@ -23,10 +22,9 @@ public abstract class SimpleAdapter<D> extends BaseAdapter {
   protected Context context;
   protected List<D> items;
 
-  public SimpleAdapter(Context context, Injector injector) {
+  public SimpleAdapter(Context context) {
     this.context = context;
     this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    injector.getObjectGraph().inject(this);
   }
 
   public void setItems(List<D> items) {
@@ -35,6 +33,10 @@ public abstract class SimpleAdapter<D> extends BaseAdapter {
 
   public List<D> getItems() {
     return items;
+  }
+
+  public void setInflater(LayoutInflater inflater) {
+    this.inflater = inflater;
   }
 
   @Override

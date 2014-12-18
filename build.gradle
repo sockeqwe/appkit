@@ -28,4 +28,10 @@ ext {
   buildToolsVersion = '21.1.2'
   compileSdkVersion = 21
 
+  // Libraries
+  appcompat7Version = '21.0.3'
+  fragmentargsVersion ='2.0.0'
+  butterknifeVersion = '6.0.0'
+  icepickVersion = '2.3.6'
+
 }

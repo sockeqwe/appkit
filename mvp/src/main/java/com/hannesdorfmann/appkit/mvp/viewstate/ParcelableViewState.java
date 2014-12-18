@@ -7,7 +7,7 @@ import android.os.Parcelable;
 /**
  * @author Hannes Dorfmann
  */
-public class ParcelableViewState<D extends Parcelable> extends ViewState<D>{
+public class ParcelableViewState<D extends Parcelable> extends ViewState<D> {
 
   public static final Creator<ParcelableViewState> CREATOR = new Creator<ParcelableViewState>() {
     @Override public ParcelableViewState createFromParcel(Parcel source) {
@@ -23,20 +23,18 @@ public class ParcelableViewState<D extends Parcelable> extends ViewState<D>{
 
   }
 
-
   private static final String BUNDLE_PARCELABLE_WORKAROUND = "ParcelableViewState.workaround";
 
-  public ParcelableViewState(){
+  public ParcelableViewState() {
 
   }
 
-  private ParcelableViewState(Parcel source){
+  private ParcelableViewState(Parcel source) {
     readFromParcel(source);
   }
 
-
   @Override
-  public void writeToParcel(Parcel dest, int flags){
+  public void writeToParcel(Parcel dest, int flags) {
     super.writeToParcel(dest, flags);
 
     // content
@@ -46,16 +44,15 @@ public class ParcelableViewState<D extends Parcelable> extends ViewState<D>{
   }
 
   @Override
-  protected void readFromParcel(Parcel source){
+  protected void readFromParcel(Parcel source) {
     super.readFromParcel(source);
 
     Bundle b = source.readBundle();
-    if (b != null){
+    if (b != null) {
       loadedData = b.getParcelable(BUNDLE_PARCELABLE_WORKAROUND);
     }
 
     // alternative ((Class) ((ParameterizedType) getClass()
     // .getGenericSuperclass()).getActualTypeArguments()[0]);
   }
-
 }

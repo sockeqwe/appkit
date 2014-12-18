@@ -21,5 +21,11 @@ android {
 
 dependencies {
   compile fileTree(dir: 'libs', include: ['*.jar'])
-  compile project(':dagger')
+
+  compile 'com.android.support:appcompat-v7:'+rootProject.ext.appcompat7Version
+  compile 'com.github.frankiesardo:icepick:'+rootProject.ext.icepickVersion
+  compile 'com.jakewharton:butterknife:'+rootProject.ext.butterknifeVersion
+  compile 'com.hannesdorfmann.fragmentargs:annotation:'+rootProject.ext.fragmentargsVersion
+
+  compile project(':screen')
 }

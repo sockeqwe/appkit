@@ -2,14 +2,15 @@ package com.hannesdorfmann.appkit.mvp.viewstate;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.hannesdorfmann.appkit.dagger.DaggerActivity;
 import com.hannesdorfmann.appkit.mvp.MvpPresenter;
 import com.hannesdorfmann.appkit.mvp.MvpView;
 import com.hannesdorfmann.appkit.mvp.R;
 import com.hannesdorfmann.appkit.mvp.util.FadeHelper;
+import com.hannesdorfmann.appkit.mvp.util.MvpAnimator;
 import icepick.Icepick;
 
 /**
@@ -60,7 +61,7 @@ import icepick.Icepick;
  * @author Hannes Dorfmann
  */
 public abstract class MvpViewStateActivity<AV extends View, M, V extends MvpView<M>, P extends MvpPresenter<V, M>>
-    extends DaggerActivity implements MvpView<M> {
+    extends ActionBarActivity implements MvpView<M> {
 
   /**
    * Get the ViewState
@@ -329,16 +330,31 @@ public abstract class MvpViewStateActivity<AV extends View, M, V extends MvpView
     setLoadingViewState(pullToRefresh);
 
     if (!pullToRefresh) {
-      FadeHelper.showLoading(loadingView, contentView, errorView);
+      animateLoadingViewIn();
     }
-    // otherwise
+    // swipe refresh layout will be triggered
+    // with a gesture and indicator is already visible
+  }
+
+  /**
+   * Animates the loading view in (replaces error view or content view)
+   */
+  protected void animateLoadingViewIn() {
+    FadeHelper.showLoading(loadingView, contentView, errorView);
   }
 
   @Override
   public void showContent() {
 
     setContentViewState();
-    FadeHelper.showContent(loadingView, contentView, errorView);
+    animateContentViewIn();
+  }
+
+  /**
+   * Animates the content view in (replaces error view or loading view)
+   */
+  protected void animateContentViewIn() {
+    MvpAnimator.showContent(loadingView, contentView, errorView);
   }
 
   /**
@@ -364,7 +380,14 @@ public abstract class MvpViewStateActivity<AV extends View, M, V extends MvpView
     if (pullToRefresh) {
       showLightError(errorMsg);
     } else {
-      FadeHelper.showErrorView(errorMsg, loadingView, contentView, errorView);
+      errorView.setText(errorMsg);
     }
+  }
+
+  /**
+   * Animates the error view in (replaces loading view or content view)
+   */
+  protected void animateErrorViewIn() {
+    FadeHelper.showErrorView(loadingView, contentView, errorView);
   }
 }

@@ -20,20 +20,17 @@ public class ArrayListViewState<D extends ArrayList<Parcelable>> extends ViewSta
     }
   };
 
-
   private static final String BUNDLE_ARRAY_LIST_WORKAROUND = "ArrayListViewState.workaround";
 
-
-  public ArrayListViewState(){
+  public ArrayListViewState() {
   }
 
-  private ArrayListViewState(Parcel source){
+  private ArrayListViewState(Parcel source) {
     readFromParcel(source);
   }
 
-
   @Override
-  public void writeToParcel(Parcel dest, int flags){
+  public void writeToParcel(Parcel dest, int flags) {
     super.writeToParcel(dest, flags);
 
     // Content
@@ -43,7 +40,7 @@ public class ArrayListViewState<D extends ArrayList<Parcelable>> extends ViewSta
   }
 
   @Override
-  protected void readFromParcel(Parcel source){
+  protected void readFromParcel(Parcel source) {
     super.readFromParcel(source);
 
     // content
@@ -55,5 +52,4 @@ public class ArrayListViewState<D extends ArrayList<Parcelable>> extends ViewSta
     // alternative ((Class) ((ParameterizedType) getClass()
     // .getGenericSuperclass()).getActualTypeArguments()[0]);
   }
-
 }

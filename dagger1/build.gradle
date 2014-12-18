@@ -22,13 +22,11 @@ android {
 dependencies {
   compile fileTree(dir: 'libs', include: ['*.jar'])
 
-  compile 'com.android.support:appcompat-v7:21.0.0'
-
   compile 'com.squareup.dagger:dagger:1.2.2'
   apt 'com.squareup.dagger:dagger-compiler:1.2.2'
 
-  compile 'com.github.frankiesardo:icepick:2.3.6'
-  apt 'com.github.frankiesardo:icepick-processor:2.3.6'
-
-  compile 'com.jakewharton:butterknife:5.1.1'
+  compile 'com.android.support:appcompat-v7:'+rootProject.ext.appcompat7Version
+  compile 'com.github.frankiesardo:icepick:'+rootProject.ext.icepickVersion
+  compile 'com.jakewharton:butterknife:'+rootProject.ext.butterknifeVersion
+  compile 'com.hannesdorfmann.fragmentargs:annotation:'+rootProject.ext.fragmentargsVersion
 }

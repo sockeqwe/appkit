@@ -1,6 +1,5 @@
 package com.hannesdorfmann.appkit.mvp;
 
-import com.hannesdorfmann.appkit.dagger.Injector;
 import java.lang.ref.WeakReference;
 
 /**
@@ -11,10 +10,6 @@ import java.lang.ref.WeakReference;
 public class MvpPresenter<V extends MvpView<M>, M> {
 
   protected WeakReference<V> viewReference;
-
-  public MvpPresenter(Injector injector) {
-    injector.getObjectGraph().inject(this);
-  }
 
   protected V getView() {
     if (viewReference != null) {

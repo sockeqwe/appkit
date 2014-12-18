@@ -1,4 +1,4 @@
-package com.hannesdorfmann.appkit.dagger;
+package com.hannesdorfmann.appkit.dagger1;
 
 import dagger.ObjectGraph;
 

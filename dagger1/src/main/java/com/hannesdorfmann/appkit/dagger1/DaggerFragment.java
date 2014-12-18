@@ -1,15 +1,19 @@
-package com.hannesdorfmann.appkit.dagger;
+package com.hannesdorfmann.appkit.dagger1;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.os.Bundle;
+import com.hannesdorfmann.fragmentargs.FragmentArgs;
 import dagger.ObjectGraph;
+import icepick.Icepick;
 
 /**
- * A Fragment class that can be used as base class for each fragment that supports Dagger injection
+ * A Fragment class that can be used as base class for each fragment that supports Dagger injection,
+ * FragmentArgs and Icepick
  *
  * @author Hannes Dorfmann
  */
-public class DaggerFragment extends android.support.v4.app.Fragment implements Injector {
+public class DaggerFragment extends Fragment implements Injector {
 
   @Override public ObjectGraph getObjectGraph() {
     Activity act = getActivity();
@@ -37,5 +41,12 @@ public class DaggerFragment extends android.support.v4.app.Fragment implements I
   public void onCreate(Bundle saved) {
     super.onCreate(saved);
     getObjectGraph().inject(this);
+    FragmentArgs.inject(this);
+    Icepick.restoreInstanceState(this, saved);
+  }
+
+  @Override public void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(outState);
+    Icepick.saveInstanceState(this, outState);
   }
 }

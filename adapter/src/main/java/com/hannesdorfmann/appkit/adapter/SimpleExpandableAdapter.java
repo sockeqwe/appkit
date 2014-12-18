@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import com.hannesdorfmann.appkit.dagger.Injector;
 
 /**
  * A Base adapter for {@link android.widget.ExpandableListView}
@@ -20,10 +19,9 @@ public abstract class SimpleExpandableAdapter extends BaseExpandableListAdapter 
   protected LayoutInflater inflater;
   protected Context context;
 
-  public SimpleExpandableAdapter(Context context, Injector injector) {
+  public SimpleExpandableAdapter(Context context) {
     this.context = context;
     this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    injector.getObjectGraph().inject(this);
   }
 
   @Override
