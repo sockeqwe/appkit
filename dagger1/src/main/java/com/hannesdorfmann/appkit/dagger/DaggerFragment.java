@@ -1,7 +1,6 @@
 package com.hannesdorfmann.appkit.dagger;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.os.Bundle;
 import dagger.ObjectGraph;
 
@@ -10,7 +9,7 @@ import dagger.ObjectGraph;
  *
  * @author Hannes Dorfmann
  */
-public class DaggerFragment extends Fragment implements Injector {
+public class DaggerFragment extends android.support.v4.app.Fragment implements Injector {
 
   @Override public ObjectGraph getObjectGraph() {
     Activity act = getActivity();

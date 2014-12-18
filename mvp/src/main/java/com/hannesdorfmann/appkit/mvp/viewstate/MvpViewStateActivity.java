@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-import butterknife.ButterKnife;
 import com.hannesdorfmann.appkit.dagger.DaggerActivity;
 import com.hannesdorfmann.appkit.mvp.MvpPresenter;
 import com.hannesdorfmann.appkit.mvp.MvpView;
@@ -236,8 +235,8 @@ public abstract class MvpViewStateActivity<AV extends View, M, V extends MvpView
   }
 
   @SuppressLint("WrongViewCast") @Override
-  public void onContentChanged() {
-    super.onContentChanged();
+  public void setContentView(int layoutResId) {
+    super.setContentView(layoutResId);
 
     contentView = (AV) findViewById(R.id.contentView);
     errorView = (TextView) findViewById(R.id.errorView);
@@ -264,8 +263,6 @@ public abstract class MvpViewStateActivity<AV extends View, M, V extends MvpView
         onErrorViewClicked();
       }
     });
-
-    ButterKnife.inject(this);
   }
 
   /**

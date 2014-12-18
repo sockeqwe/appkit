@@ -1,7 +1,7 @@
 package com.hannesdorfmann.appkit.dagger;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import butterknife.ButterKnife;
 import dagger.ObjectGraph;
 import icepick.Icepick;
@@ -10,7 +10,7 @@ import icepick.Icepick;
  * A base Activity class that support dependency injection with dagger.
  * @author Hannes Dorfmann
  */
-public class DaggerActivity extends Activity implements Injector {
+public class DaggerActivity extends ActionBarActivity implements Injector {
 
   @Override
   public ObjectGraph getObjectGraph() {
@@ -44,9 +44,9 @@ public class DaggerActivity extends Activity implements Injector {
     Icepick.saveInstanceState(this, outState);
   }
 
-  @Override
-  public void onContentChanged() {
-    super.onContentChanged();
+  public void setContentView(int layoutRes){
+    super.setContentView(layoutRes);
     ButterKnife.inject(this);
   }
+
 }
