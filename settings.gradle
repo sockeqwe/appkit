@@ -1,1 +1,1 @@
-include ':mvp', ':dagger1', ':string', ':math', ':adapter', ':mvp-httpkit', ':image', ':dagger1-mvp', ':dagger1-adapter', ':dagger1-mvp-httpkit', ':screen'
+include ':mvp', ':dagger1', ':string', ':math', ':adapter', ':mvp-httpkit', ':image', ':dagger1-mvp', ':dagger1-adapter', ':dagger1-mvp-httpkit', ':screen', ':recyclerview'

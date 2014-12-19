@@ -30,8 +30,10 @@ ext {
 
   // Libraries
   appcompat7Version = '21.0.3'
+  recyclerviewVersion ='21.0.+'
   fragmentargsVersion ='2.0.0'
   butterknifeVersion = '6.0.0'
   icepickVersion = '2.3.6'
+
 
 }
