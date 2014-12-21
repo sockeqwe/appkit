@@ -47,12 +47,19 @@ public abstract class RecyclerFragment<A extends RecyclerView.Adapter, M, V exte
     super.showLoading(pullToRefresh);
     if (pullToRefresh) {
       contentView.setRefreshing(true);
+    } else {
+      if (isEmptyViewEnabled()) {
+        emptyView.setVisibility(View.GONE);
+      }
     }
   }
 
   @Override public void showError(Exception e, boolean pullToRefresh) {
     super.showError(e, pullToRefresh);
     contentView.setRefreshing(false);
+    if (!pullToRefresh && isEmptyViewEnabled()) {
+      emptyView.setVisibility(View.GONE);
+    }
   }
 
   @Override public void showContent() {
