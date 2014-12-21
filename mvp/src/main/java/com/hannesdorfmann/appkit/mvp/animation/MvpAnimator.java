@@ -1,4 +1,4 @@
-package com.hannesdorfmann.appkit.mvp.util;
+package com.hannesdorfmann.appkit.mvp.animation;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;

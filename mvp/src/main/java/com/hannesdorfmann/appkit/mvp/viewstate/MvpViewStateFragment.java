@@ -11,8 +11,8 @@ import butterknife.ButterKnife;
 import com.hannesdorfmann.appkit.mvp.MvpPresenter;
 import com.hannesdorfmann.appkit.mvp.MvpView;
 import com.hannesdorfmann.appkit.mvp.R;
-import com.hannesdorfmann.appkit.mvp.util.FadeHelper;
-import com.hannesdorfmann.appkit.mvp.util.MvpAnimator;
+import com.hannesdorfmann.appkit.mvp.animation.FadeHelper;
+import com.hannesdorfmann.appkit.mvp.animation.MvpAnimator;
 import com.hannesdorfmann.fragmentargs.FragmentArgs;
 import icepick.Icepick;
 
