@@ -1,5 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.neenbedankt.android-apt'
+apply from: '../pom-evaluator.gradle'
 
 android {
   compileSdkVersion rootProject.ext.compileSdkVersion
@@ -8,8 +9,8 @@ android {
   defaultConfig {
     minSdkVersion rootProject.ext.minSdk
     targetSdkVersion rootProject.ext.targetSdk
-    versionCode rootProject.ext.versionCode
-    versionName rootProject.ext.versionName
+    versionName project.VERSION_NAME
+    versionCode Integer.parseInt(project.VERSION_CODE)
   }
   buildTypes {
     release {
@@ -30,3 +31,6 @@ dependencies {
   compile 'com.jakewharton:butterknife:'+rootProject.ext.butterknifeVersion
   compile 'com.hannesdorfmann.fragmentargs:annotation:'+rootProject.ext.fragmentargsVersion
 }
+
+
+apply from: 'https://raw.github.com/sockeqwe/gradle-mvn-push/master/gradle-mvn-push.gradle'

@@ -1,0 +1,17 @@
+afterEvaluate {
+  uploadArchives {
+    repositories {
+      mavenDeployer {
+        pom.groupId = project.GROUP
+        pom.version = project.VERSION_NAME
+
+        pom.whenConfigured { pom ->
+          pom.dependencies.findAll { dep -> dep.groupId == rootProject.name }.collect { dep ->
+            dep.groupId = pom.groupId = project.GROUP
+            dep.version = pom.version = project.VERSION_NAME
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply from: '../pom-evaluator.gradle'
 
 android {
   compileSdkVersion rootProject.ext.compileSdkVersion
@@ -7,8 +8,8 @@ android {
   defaultConfig {
     minSdkVersion rootProject.ext.minSdk
     targetSdkVersion rootProject.ext.targetSdk
-    versionCode rootProject.ext.versionCode
-    versionName rootProject.ext.versionName
+    versionName project.VERSION_NAME
+    versionCode Integer.parseInt(project.VERSION_CODE)
   }
   buildTypes {
     release {
@@ -21,3 +22,6 @@ android {
 dependencies {
   compile fileTree(dir: 'libs', include: ['*.jar'])
 }
+
+
+apply from: 'https://raw.github.com/sockeqwe/gradle-mvn-push/master/gradle-mvn-push.gradle'

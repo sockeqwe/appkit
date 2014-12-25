@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply from: '../pom-evaluator.gradle'
 
 
 android {
@@ -8,8 +9,8 @@ android {
   defaultConfig {
     minSdkVersion rootProject.ext.minSdk
     targetSdkVersion rootProject.ext.targetSdk
-    versionCode rootProject.ext.versionCode
-    versionName rootProject.ext.versionName
+    versionName project.VERSION_NAME
+    versionCode Integer.parseInt(project.VERSION_CODE)
   }
   buildTypes {
     release {
@@ -25,3 +26,6 @@ dependencies {
   compile project(':mvp-httpkit')
   compile project (':dagger1')
 }
+
+
+apply from: 'https://raw.github.com/sockeqwe/gradle-mvn-push/master/gradle-mvn-push.gradle'

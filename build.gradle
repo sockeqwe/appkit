@@ -20,9 +20,6 @@ allprojects {
 }
 
 ext {
-  ver = '0.8'
-  versionCode = 1
-  versionName = '1.0'
   minSdk = 14
   targetSdk = 21
   buildToolsVersion = '21.1.2'
@@ -31,9 +28,8 @@ ext {
   // Libraries
   appcompat7Version = '21.0.3'
   recyclerviewVersion ='21.0.+'
-  fragmentargsVersion ='2.0.0'
+  fragmentargsVersion ='2.0.1'
   butterknifeVersion = '6.0.0'
   icepickVersion = '2.3.6'
-
 
 }
