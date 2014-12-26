@@ -1,6 +1,6 @@
 package com.hannesdorfmann.appkit.dagger1.mvp.httpkit;
 
-import com.hannesdorfmann.appkit.dagger1.Injector;
+import com.hannesdorfmann.appkit.dagger1.Dagger1Injector;
 import com.hannesdorfmann.appkit.mvp.MvpView;
 import com.hannesdorfmann.appkit.mvp.httpkit.MvpHttpPresenter;
 import com.hannesdorfmann.httpkit.HttpKit;
@@ -10,9 +10,9 @@ import com.hannesdorfmann.httpkit.HttpKit;
  *
  * @author Hannes Dorfmann
  */
-public class DaggerMvpHttpPresenter<V extends MvpView<D>, D> extends MvpHttpPresenter<V, D> {
+public class Dagger1MvpHttpPresenter<V extends MvpView<D>, D> extends MvpHttpPresenter<V, D> {
 
-  public DaggerMvpHttpPresenter(Injector injector) {
+  public Dagger1MvpHttpPresenter(Dagger1Injector injector) {
     if (injector == null) {
       throw new IllegalArgumentException("Injector is null!");
     }

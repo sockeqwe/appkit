@@ -13,7 +13,7 @@ import icepick.Icepick;
  *
  * @author Hannes Dorfmann
  */
-public class DaggerFragment extends Fragment implements Injector {
+public class Dagger1Fragment extends Fragment implements Dagger1Injector {
 
   @Override public ObjectGraph getObjectGraph() {
     Activity act = getActivity();
@@ -22,12 +22,12 @@ public class DaggerFragment extends Fragment implements Injector {
       throw new NullPointerException("Activity of Fragment is null");
     }
 
-    if (!(act.getApplication() instanceof Injector)) {
+    if (!(act.getApplication() instanceof Dagger1Injector)) {
       throw new IllegalArgumentException("The application class of your android app must implement "
-          + Injector.class.getCanonicalName());
+          + Dagger1Injector.class.getCanonicalName());
     }
 
-    Injector injector = (Injector) act.getApplication();
+    Dagger1Injector injector = (Dagger1Injector) act.getApplication();
     ObjectGraph og = injector.getObjectGraph();
 
     if (og == null) {

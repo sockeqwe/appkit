@@ -11,17 +11,17 @@ import icepick.Icepick;
  *
  * @author Hannes Dorfmann
  */
-public class DaggerActivity extends ActionBarActivity implements Injector {
+public class Dagger1Activity extends ActionBarActivity implements Dagger1Injector {
 
   @Override
   public ObjectGraph getObjectGraph() {
 
-    if (!(getApplication() instanceof Injector)) {
+    if (!(getApplication() instanceof Dagger1Injector)) {
       throw new IllegalArgumentException("The application class of your android app must implement "
-          + Injector.class.getCanonicalName());
+          + Dagger1Injector.class.getCanonicalName());
     }
 
-    Injector injector = (Injector) getApplication();
+    Dagger1Injector injector = (Dagger1Injector) getApplication();
 
     ObjectGraph og = injector.getObjectGraph();
 

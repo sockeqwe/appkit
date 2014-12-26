@@ -8,7 +8,7 @@ import dagger.ObjectGraph;
  *
  * @author Hannes Dorfmann
  */
-public interface Injector {
+public interface Dagger1Injector {
 
   /**
    * Get the object graph

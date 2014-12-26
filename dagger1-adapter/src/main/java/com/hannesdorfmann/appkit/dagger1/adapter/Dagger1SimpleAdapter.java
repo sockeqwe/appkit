@@ -5,7 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import com.hannesdorfmann.appkit.adapter.SimpleAdapter;
-import com.hannesdorfmann.appkit.dagger1.Injector;
+import com.hannesdorfmann.appkit.dagger1.Dagger1Injector;
 
 /**
  * This {@link BaseAdapter} encapsulate the getView() call into
@@ -13,10 +13,10 @@ import com.hannesdorfmann.appkit.dagger1.Injector;
  *
  * @author Hannes Dorfmann
  */
-public abstract class DaggerSimpleAdapter<D> extends SimpleAdapter<D> {
+public abstract class Dagger1SimpleAdapter<D> extends SimpleAdapter<D> {
 
 
-  public DaggerSimpleAdapter(Context context, Injector injector) {
+  public Dagger1SimpleAdapter(Context context, Dagger1Injector injector) {
     super(context);
     if (injector == null){
       throw new IllegalArgumentException("Injector is null");
