@@ -1,8 +1,8 @@
 package com.hannesdorfmann.appkit.dagger1;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import com.hannesdorfmann.fragmentargs.FragmentArgs;
 import dagger.ObjectGraph;
 import icepick.Icepick;
